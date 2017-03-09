@@ -8,6 +8,12 @@ body {
   font-family: sans-serif;
 }
 
+button{
+  background-color: #e7e7e7;
+  color: black;
+  font-size: 14px;
+}
+
 .interface {
   width: 80%;
   max-width: 1000px;
@@ -29,7 +35,7 @@ body {
 .image-editor-container {
   width:45%;
   float:left;
-  margin-right: 5%
+  /*margin-right: 5%*/
 }
 
 .history-container {
@@ -39,4 +45,7 @@ body {
   overflow: auto;
   background-color: #efefef;
   border:1px solid #000;
+}
+.history-return{
+  color:#0645AD;
 }

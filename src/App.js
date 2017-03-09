@@ -49,9 +49,8 @@ import AvatarEditor from 'react-avatar-editor'
 
 ////title practicing///////////////
         // let current_title;
-        var titles = Array()
+        var titles = [];
         titles.push(state.title)
-        console.log(titles)
         // if (title === this.state.history){
         //
         // }
@@ -66,9 +65,13 @@ import AvatarEditor from 'react-avatar-editor'
 
 
       resetHistory(){
+
        let history = this.state.history
        history.length = 1;
-       this.setState({history})
+       let file = this.props.file;
+       file.length = 0
+       this.setState({history,file}
+       );
        // setstate to the new value of history, which here is nothing but initial
      }
 
@@ -179,6 +182,7 @@ import AvatarEditor from 'react-avatar-editor'
             </div>
 
             <div className="history-container">
+              Use scroll bar- click to go back to event
               {this.state.history.map((item,i) => {
 
                 return (
@@ -194,7 +198,8 @@ import AvatarEditor from 'react-avatar-editor'
 //bind to setEditorRef function above
               ref={this.setEditorRef.bind(this)}
 //image coming from Dropzone
-              image={this.props.url}
+              image={this.props.file}
+              uploaded={this.props.uploaded}
               width={this.state.width}
               height={this.state.height}
               border={this.state.border}
@@ -216,12 +221,14 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      files: []
+      files: [],
+      uploaded: false
     };
   }
     onDrop(acceptedFiles){
       this.setState({
-        files: acceptedFiles
+        files: acceptedFiles,
+        uploaded: true
       })
   }
   render() {
@@ -232,8 +239,11 @@ class App extends Component {
         <Dropzone onDrop={this.onDrop.bind(this)} >Drop some files here</Dropzone>
         </div>
 
+
+{/* rendering the editor here- passing the url of droped photo back as props */}
         <div className="my-editor">
-          <MyEditor url={this.state.files[0] ? this.state.files[0].preview : ''} />
+          <MyEditor file={this.state.files[0] ? this.state.files[0].preview : ''}
+          uploaded={this.state.uploaded}/>
         </div>
 
         {/* from Dropzone docs- function to render image -  */}
