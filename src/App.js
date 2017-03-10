@@ -41,15 +41,16 @@ import AvatarEditor from 'react-avatar-editor'
           rotate: this.state.rotate,
         };
 //CREATE SHALLOW COPY OF THE HISTORY-
-// THIS HAPPENS WHENEVER AN NEW PIECE OF HISTORY HAPPENS?? -TRUE?
+// THIS HAPPENS WHENEVER AN NEW PIECE OF HISTORY HAPPENS
         let history = this.state.history.slice(0);
 // WHENEVER THE HISTORY CHANGES, THE CHANGE IS SLICED OFF AND PUSHED INTO THE HISTORY ARRAY?
-//CREATED IN THIS.STATE?
+//CREATED IN THIS.STATE
 
 
 ////title practicing///////////////
         // let current_title;
         var titles = [];
+        // comes form the handle method
         titles.push(state.title)
         // if (title === this.state.history){
         //
@@ -65,7 +66,7 @@ import AvatarEditor from 'react-avatar-editor'
 
 
       resetHistory(){
-
+// access history varilble = no acces to photo b/c of scope
        let history = this.state.history
        history.length = 1;
        let file = this.props.file;
@@ -189,6 +190,7 @@ import AvatarEditor from 'react-avatar-editor'
                   <div className="history-return">
                     {/* index comes from binding i to the method call                    */}
                     <div key={i} onClick={this.goBackHistory.bind(this, i)}>{item.title}
+                      {/* binding the i acts as index to keep each point attacted to number, so it is possile to go back */}
                     </div>
                   </div>
                 )
