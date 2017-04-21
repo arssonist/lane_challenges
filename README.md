@@ -1,4 +1,4 @@
-h1 React Photo Uploader
+<h1> React Photo Uploader </h1>
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
