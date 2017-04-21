@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
-This version 1.0 of a photo uploader app built using React
+This is version 1.0 of a photo uploader app built using React
 
 About: 
 
