@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import AvatarEditor from 'react-avatar-editor'
 import Slider from './components/Slider'
+import Button from './components/Button'
 
 
     class MyEditor extends React.Component {
@@ -153,31 +154,18 @@ import Slider from './components/Slider'
           <div>
             <div className="image-editor-container">
 
-              <Slider onChange={this.handleScale.bind(this)} value={this.state.scale}/>
-              <div className="red-color-slider">Border Red:
-                <input type="range" onChange={this.handleRed.bind(this)} value={this.state.color[0]}/>
-              </div>
-              <div className="green-color-slider">Border Green:
-                <input type="range" onChange={this.handleGreen.bind(this)} value={this.state.color[1]}/>
-              </div>
-              <div className="blue-color-slider">Border Blue:
-                <input type="range" onChange={this.handleBlue.bind(this)} value={this.state.color[2]}/>
-              </div>
-              <div className="opacity-color-slider">Border Opacity:
-                <input type="range" onChange={this.handleOpacity.bind(this)} value={this.state.color[3]}/>
-              </div>
 
-              <button className="rotate-left"     onClick={this.handleLeft.bind(this)}>Rotate Left
-              </button>
+              <Slider text="Zoom" onChange={this.handleScale.bind(this)} value={this.state.scale}/>
+              <Slider className="red-color-slider" text="Border Red" onChange={this.handleRed.bind(this)} value={this.state.color[0]}/>
+              <Slider className="green-color-slider" text="Border Green" onChange={this.handleGreen.bind(this)} value={this.state.color[1]}/>
+              <Slider className="blue-color-slider" text="Border Blue" onChange={this.handleBlue.bind(this)} value={this.state.color[2]}/>
+              <Slider className="opacity-color-slider" text="Border Opacity" onChange={this.handleOpacity.bind(this)} value={this.state.color[3]}/>
 
-              <button className="rotate-right"  onClick={this.handleRight.bind(this)}>Rotate Right
-              </button>
-
-              <button className="preview" onClick={this.handlePreview.bind(this)}>Preview
-              </button>
-
-              <button className="reset" onClick={this.resetHistory.bind(this)}>Reset
-              </button>
+             <Button className="rotate-left" text="Rotate Left" onClick={this.handleLeft.bind(this)}/>
+             <Button className="rotate-right" text="Rotate Right"
+             onClick={this.handleRight.bind(this)}/>
+             <Button className="preview" text="Preview" onClick={this.handlePreview.bind(this)}/>
+             <Button className="reset" text="Reset" onClick={this.resetHistory.bind(this)}/>
 
             </div>
 
