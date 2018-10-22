@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import Slider from './Slider'
 import Button from './Button'
 import AvatarEditor from 'react-avatar-editor'
+import History from './History'
+
 
 class Editor extends React.Component {
       constructor(props){
@@ -169,19 +171,9 @@ class Editor extends React.Component {
 
 
             </div>
-            <div className="history-container">
-              Use scroll bar- click to go back to event
-              {this.state.history.map((item,i) => {
+            <History text="Use scroll bar- click to go back to event" array={this.state.history} onClick={this.goBackHistory.bind(this)}/>
 
-                return (
-                  <div className="history-return">
-                    {/* index comes from binding i to the method call                    */}
-                    <div key={i} onClick={this.goBackHistory.bind(this, i)}>{item.title}
-                      {/* binding the i acts as index to keep each point attacted to number, so it is possile to go back */}
-                    </div>
-                  </div>
-                )
-              })}</div>
+
 
             <AvatarEditor
 //bind to setEditorRef function above
