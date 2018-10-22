@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import AvatarEditor from 'react-avatar-editor'
+import Slider from './components/Slider'
 
 
     class MyEditor extends React.Component {
@@ -152,9 +153,7 @@ import AvatarEditor from 'react-avatar-editor'
           <div>
             <div className="image-editor-container">
 
-              <div className="range-slider">Zoom:
-                <input type="range" onChange={this.handleScale.bind(this)} value={this.state.scale}/>
-              </div>
+              <Slider onChange={this.handleScale.bind(this)} value={this.state.scale}/>
               <div className="red-color-slider">Border Red:
                 <input type="range" onChange={this.handleRed.bind(this)} value={this.state.color[0]}/>
               </div>
