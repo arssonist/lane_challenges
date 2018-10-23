@@ -81,7 +81,7 @@ class Editor extends React.Component {
 
       goBackHistory(index){
 // set all the properies to be whatever they were at this point in history
-        console.log(index)
+        console.log('index', index)
         let { color, scale, rotate } = this.state.history[index];
 
 // then set the history itself to slice from the beginning up until this time -this is how if goes backwards
@@ -149,6 +149,9 @@ class Editor extends React.Component {
       setEditorRef (editor) {
         if (editor) this.editor = editor
       }
+      logger(){
+          console.log('TESTT')
+      }
 
       render () {
         return (
@@ -171,9 +174,32 @@ class Editor extends React.Component {
 
 
             </div>
-            <History text="Use scroll bar- click to go back to event" array={this.state.history} onClick={this.goBackHistory.bind(this)}/>
+            <div className="history-container">
+                Use scroll bar- click to go back to event
+                {this.state.history.map((item,i) => {
+                    return (
+                        <History hello={this.logger.bind(this)} key={i} nodeText={item.title}/>
+                    )
+                })
+                }
+            </div>
+
+            <div onClick={this.logger.bind(this)} >Hello</div>
 
 
+            <div className="history-container">
+              Use scroll bar- click to go back to event
+              {this.state.history.map((item,i) => {
+
+                return (
+                  <div className="history-return">
+                    {/* index comes from binding i to the method call                    */}
+                    <div key={i} onClick={this.logger.bind(this)}>{item.title}
+                      {/* binding the i acts as index to keep each point attacted to number, so it is possile to go back */}
+                    </div>
+                  </div>
+                )
+              })}</div>
 
             <AvatarEditor
 //bind to setEditorRef function above
