@@ -22,9 +22,9 @@ class App extends Component {
   render() {
     return (
       <main className="interface">
-            <Uploader className="uploader" onDrop={this.onDrop.bind(this)} >Drop some files here</Uploader>
+            <Uploader  onDrop={this.onDrop.bind(this)} >Drop some files here</Uploader>
 
-            <Editor className="my-editor" file={this.state.files[0] ? this.state.files[0].preview : ''}
+            <Editor file={this.state.files[0] ? this.state.files[0].preview : ''}
             uploaded={this.state.uploaded}/>
       </main>
 

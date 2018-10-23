@@ -4,6 +4,7 @@ import Slider from './Slider'
 import Button from './Button'
 import AvatarEditor from 'react-avatar-editor'
 import History from './History'
+import Uploader from './Uploader'
 
 
 class Editor extends React.Component {
@@ -31,8 +32,6 @@ class Editor extends React.Component {
           ]
         };
       }
-
-
 
 //WHEN CALLED ADDHISTORY BELOW, TAKES IN TITLE TO APPEAR
 //PROPERTIES AND THEIR STATE + TITLE ARE BUNDLED,
@@ -66,8 +65,6 @@ class Editor extends React.Component {
         this.setState({history});
         // setstate to the new value of history
       }
-
-
       resetHistory(){
 // access history varilble = no acces to photo b/c of scope
        let history = this.state.history
@@ -97,7 +94,6 @@ class Editor extends React.Component {
         });
         this.addHistory('Scale changed');
       }
-
 
       handleRed(event){
         let color = this.state.color.slice(0);
@@ -149,43 +145,33 @@ class Editor extends React.Component {
       setEditorRef (editor) {
         if (editor) this.editor = editor
       }
-      logger(){
-          console.log('TESTT')
-      }
+      onDrop(acceptedFiles){
+        this.setState({
+          files: acceptedFiles,
+          uploaded: true
+        })
+    }
 
       render () {
         return (
-          <div>
-            <div className="image-editor-container">
-
+          <section className="editor">
+              <div className="image-editor-container">
                 <div className="editor-props" file={this.props.file} uploaded={this.props.uploaded}></div>
-
-                <Slider text="Zoom" onChange={this.handleScale.bind(this)} value={this.state.scale}/>
-                <Slider className="red-color-slider" text="Border Red" onChange={this.handleRed.bind(this)} value={this.state.color[0]}/>
-                <Slider className="green-color-slider" text="Border Green" onChange={this.handleGreen.bind(this)} value={this.state.color[1]}/>
-                <Slider className="blue-color-slider" text="Border Blue" onChange={this.handleBlue.bind(this)} value={this.state.color[2]}/>
-                <Slider className="opacity-color-slider" text="Border Opacity" onChange={this.handleOpacity.bind(this)} value={this.state.color[3]}/>
-
-                <Button className="rotate-left" text="Rotate Left" onClick={this.handleLeft.bind(this)}/>
-                <Button className="rotate-right" text="Rotate Right"
-                onClick={this.handleRight.bind(this)}/>
-                <Button className="preview" text="Preview" onClick={this.handlePreview.bind(this)}/>
-                <Button className="reset" text="Reset" onClick={this.resetHistory.bind(this)}/>
-
-
+                <div className="sliders">
+                    <Slider text="Zoom" onChange={this.handleScale.bind(this)} value={this.state.scale}/>
+                    <Slider className="red-color-slider" text="Border Red" onChange={this.handleRed.bind(this)} value={this.state.color[0]}/>
+                    <Slider className="green-color-slider" text="Border Green" onChange={this.handleGreen.bind(this)} value={this.state.color[1]}/>
+                    <Slider className="blue-color-slider" text="Border Blue" onChange={this.handleBlue.bind(this)} value={this.state.color[2]}/>
+                    <Slider className="opacity-color-slider" text="Border Opacity" onChange={this.handleOpacity.bind(this)} value={this.state.color[3]}/>
+                </div>
+                <div className="buttons">
+                    <Button className="rotate-left" text="Rotate Left" onClick={this.handleLeft.bind(this)}/>
+                    <Button className="rotate-right" text="Rotate Right"
+                        onClick={this.handleRight.bind(this)}/>
+                        <Button className="preview" text="Preview" onClick={this.handlePreview.bind(this)}/>
+                        <Button className="reset" text="Reset" onClick={this.resetHistory.bind(this)}/>
+                </div>
             </div>
-            <div className="history-container">
-                Use scroll bar- click to go back to event
-                {this.state.history.map((item,i) => {
-                    return (
-                        <History hello={this.logger.bind(this)} key={i} nodeText={item.title}/>
-                    )
-                })
-                }
-            </div>
-
-            <div onClick={this.logger.bind(this)} >Hello</div>
-
 
             <div className="history-container">
               Use scroll bar- click to go back to event
@@ -194,7 +180,7 @@ class Editor extends React.Component {
                 return (
                   <div className="history-return">
                     {/* index comes from binding i to the method call                    */}
-                    <div key={i} onClick={this.logger.bind(this)}>{item.title}
+                    <div key={i} onClick={this.goBackHistory.bind(this, i)}>{item.title}
                       {/* binding the i acts as index to keep each point attacted to number, so it is possile to go back */}
                     </div>
                   </div>
@@ -214,12 +200,11 @@ class Editor extends React.Component {
               scale={this.state.scale}
               rotate={this.state.rotate}
             />
-{/* scaled image rendered here */}
-            <img src={this.state.scaledImage} />
-
-
-
-          </div>
+            {/* scaled image rendered here */}
+            <div className="scaled-image">
+                <img src={this.state.scaledImage} />
+            </div>
+        </section>
         )
       }
 }
