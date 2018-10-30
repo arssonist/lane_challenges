@@ -4,6 +4,7 @@ import Button from './Button'
 import AvatarEditor from 'react-avatar-editor'
 import History from './History'
 import Uploader from './Uploader'
+import Modal from './Modal'
 
 class Editor extends React.Component {
 	constructor(props) {
@@ -18,7 +19,8 @@ class Editor extends React.Component {
 			],
 			scale: 1.2,
 			rotate: 0,
-			scaledImage: ''
+			scaledImage: '',
+			show: false
 		}
 		this.state = {
 			//import initialValues variable as state, using key/value pairs as state
@@ -147,7 +149,7 @@ class Editor extends React.Component {
 	}
 	//avatar-editor method- put our changed image into this variable
 	handlePreview(e) {
-        console.log('fired')
+		console.log('fired')
 		const canvasScaled = this.editor.getImageScaledToCanvas();
 		//put out final product inside the scaledImage container, made back in initialValues as blank
 		//GIVEN THIS ANSWER- call .toDataURL() on this image, returning dataurl represnation of image
@@ -155,13 +157,24 @@ class Editor extends React.Component {
 
 	}
 	//avatar-editor function -  just copied from docs, matches ref in body of component
-    	setEditorRef(editor) {
-    		if (editor)
-    			this.editor = editor
-    	}
+	setEditorRef(editor) {
+		if (editor)
+			this.editor = editor
+	}
+
+	showModal = () => {
+        console.log('open')
+		this.setState({show: true});
+	}
+
+	hideModal = () => {
+        console.log('close')
+		this.setState({show: false});
+        console.log(this.state.show)
+	}
 
 	render() {
-    		return (<section className="editor">
+		return (<section className="editor">
 			<div className="image-editor-container">
 
 				<div className="sliders">
@@ -192,18 +205,22 @@ class Editor extends React.Component {
 
 					</div>
 				</div>
+				<Modal show={this.state.show} handleClose={this.hideModal}>
+					<p>Modal</p>
+					<p>Data</p>
+				</Modal>
+				<button type="button" onClick={this.showModal}>
+					open
+				</button>
 			</div>
 
 			<AvatarEditor
 				//bind to setEditorRef function above
 				ref={this.setEditorRef.bind(this)}
 				//image coming from Dropzone
-				image={this.props.file} uploaded={this.props.uploaded} width={this.state.width}
-                height={this.state.height} border={this.state.border}
-                color={this.state.color}
+				image={this.props.file} uploaded={this.props.uploaded} width={this.state.width} height={this.state.height} border={this.state.border} color={this.state.color}
 				// RGBA
-				scale={this.state.scale}
-                className="avatar-editor" rotate={this.state.rotate}/> {/* scaled image rendered here */}
+				scale={this.state.scale} className="avatar-editor" rotate={this.state.rotate}/> {/* scaled image rendered here */}
 
 			<div className="scaled-image">
 				<img src={this.state.scaledImage}/>
