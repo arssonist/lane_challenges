@@ -22,10 +22,11 @@ class App extends React.Component {
     return (
     <main className="interface-container">
         <div className="interface">
-            <Uploader  onDrop={this.onDrop.bind(this)} >Drop some files here</Uploader>
-
             <Editor file={this.state.files[0] ? this.state.files[0].preview : ''}
                 uploaded={this.state.uploaded}/>
+                
+            <Uploader onDrop={this.onDrop.bind(this)} ></Uploader>
+
             </div>
     </main>
 

@@ -39,9 +39,8 @@ button {
 }
 
 .uploader {
-	width: 32%;
-	margin-right: 2%;
-	float: left;
+	display: flex;
+	justify-content: center;
 }
 
 .image-editor-container {}
@@ -97,4 +96,10 @@ button {
 	display: block;
 	text-decoration: none;
 	color: inherit;
+}
+
+.editor canvas {
+	position: absolute;
+	left: 440px;
+	top: 280px;
 }

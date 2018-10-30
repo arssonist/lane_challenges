@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import Slider from './Slider'
 import Button from './Button'
 import AvatarEditor from 'react-avatar-editor'
@@ -147,13 +146,14 @@ class Editor extends React.Component {
 		this.addHistory('Rotated Right');
 	}
 	//avatar-editor method- put our changed image into this variable
-	// handlePreview(e) {
-	// 	const canvasScaled = this.editor.getImageScaledToCanvas();
-	// 	//put out final product inside the scaledImage container, made back in initialValues as blank
-	// 	//GIVEN THIS ANSWER- call .toDataURL() on this image, returning dataurl represnation of image
-	// 	this.setState({scaledImage: canvasScaled.toDataURL()})
-    //
-	// }
+	handlePreview(e) {
+        console.log('fired')
+		const canvasScaled = this.editor.getImageScaledToCanvas();
+		//put out final product inside the scaledImage container, made back in initialValues as blank
+		//GIVEN THIS ANSWER- call .toDataURL() on this image, returning dataurl represnation of image
+		this.setState({scaledImage: canvasScaled.toDataURL()})
+
+	}
 	//avatar-editor function -  just copied from docs, matches ref in body of component
     	setEditorRef(editor) {
     		if (editor)
@@ -163,10 +163,7 @@ class Editor extends React.Component {
 	render() {
     		return (<section className="editor">
 			<div className="image-editor-container">
-				{/* <div className="editor-props" file={this.props.file} uploaded={this.props.uploaded}>
 
-                </div> */
-				}
 				<div className="sliders">
 					<Slider text="Zoom" onChange={this.handleScale.bind(this)} value={this.state.scale}/>
 					<Slider className="red-color-slider" text="Border Red" onChange={this.handleRed.bind(this)} value={this.state.color[0]}/>
@@ -177,7 +174,7 @@ class Editor extends React.Component {
 				<div className="buttons">
 					<Button className="rotate-left" text="Rotate Left" onClick={this.handleLeft.bind(this)}/>
 					<Button className="rotate-right" text="Rotate Right" onClick={this.handleRight.bind(this)}/>
-					{/* <Button className="preview" text="Preview" onClick={this.handlePreview.bind(this)}/> */}
+					<Button className="preview" text="Preview" onClick={this.handlePreview.bind(this)}/>
 					<Button className="reset" text="Reset" onClick={this.resetHistory.bind(this)}/>
 				</div>
 				<div className="history-container">
@@ -191,7 +188,6 @@ class Editor extends React.Component {
 									</li>)
 								})
 							}
-
 						</ol>
 
 					</div>
@@ -209,9 +205,9 @@ class Editor extends React.Component {
 				scale={this.state.scale}
                 className="avatar-editor" rotate={this.state.rotate}/> {/* scaled image rendered here */}
 
-			{/* <div className="scaled-image">
+			<div className="scaled-image">
 				<img src={this.state.scaledImage}/>
-			</div> */}
+			</div>
 		</section>)
 	}
 }
