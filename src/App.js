@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import Dropzone from 'react-dropzone';
 import AvatarEditor from 'react-avatar-editor'
 import Editor from './components/Editor'
 import Uploader from './components/Uploader'
 
-class App extends Component {
+class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
