@@ -23,15 +23,19 @@ class Editor extends React.Component {
         this.state = {
 //import initialValues variable as state, using key/value pairs as state
           ...initialValues,
+          index:'',
 //set history as the all the original initialValues and a title
           history: [
             {
               ...initialValues,
                 title: 'Initial'
             }
-          ]
+        ],
+          historyObj: {}
         };
+        this.indexRef = React.createRef()
       }
+
 
 //WHEN CALLED ADDHISTORY BELOW, TAKES IN TITLE TO APPEAR
 //PROPERTIES AND THEIR STATE + TITLE ARE BUNDLED,
@@ -75,16 +79,25 @@ class Editor extends React.Component {
        );
        // setstate to the new value of history, which here is nothing but initial
      }
+     getIndex() {
+        if(this.indexRef.current === null){
+            return
+        }
+        console.log(parseInt(this.indexRef.current.value))
+        return parseInt(this.indexRef.current.value)
+    }
 
       goBackHistory(index){
+          console.log('index', index)
 // set all the properies to be whatever they were at this point in history
-        console.log('index', index)
+        // console.log('index', index)
         let { color, scale, rotate } = this.state.history[index];
 
 // then set the history itself to slice from the beginning up until this time -this is how if goes backwards
         let history = this.state.history.slice(0, index);
 //change the state to equal those settings
         this.setState({ color, scale, rotate, history });
+        console.log('color', this.state.color)
       }
 
       handleScale(event){
@@ -97,25 +110,25 @@ class Editor extends React.Component {
 
       handleRed(event){
         let color = this.state.color.slice(0);
-        color[0] = event.target.value;
+        color[0] = parseInt(event.target.value);
         this.setState({ ...this.state, color });
         this.addHistory('Red changed');
       }
       handleGreen(event){
         let color = this.state.color.slice(0);
-        color[1] = event.target.value;
+        color[1] = parseInt(event.target.value);
         this.setState({ ...this.state, color });
         this.addHistory('Green changed');
       }
       handleBlue(event){
         let color = this.state.color.slice(0);
-        color[2] = event.target.value;
+        color[2] = parseInt(event.target.value);
         this.setState({ ...this.state, color });
         this.addHistory('Blue changed');
       }
       handleOpacity(event){
         let color = this.state.color.slice(0);
-        color[3] = event.target.value;
+        color[3] = parseInt(event.target.value)
         this.setState({ ...this.state, color });
         this.addHistory('Opacity changed');
       }
@@ -151,12 +164,20 @@ class Editor extends React.Component {
           uploaded: true
         })
     }
+    setIndex(index, event){
+        this.setState({
+            historyObj: event
+        })
+        console.log(this.historyObj)
+    }
 
       render () {
         return (
           <section className="editor">
               <div className="image-editor-container">
-                <div className="editor-props" file={this.props.file} uploaded={this.props.uploaded}></div>
+                {/* <div className="editor-props" file={this.props.file} uploaded={this.props.uploaded}>
+
+                </div> */}
                 <div className="sliders">
                     <Slider text="Zoom" onChange={this.handleScale.bind(this)} value={this.state.scale}/>
                     <Slider className="red-color-slider" text="Border Red" onChange={this.handleRed.bind(this)} value={this.state.color[0]}/>
@@ -171,26 +192,30 @@ class Editor extends React.Component {
                         <Button className="preview" text="Preview" onClick={this.handlePreview.bind(this)}/>
                         <Button className="reset" text="Reset" onClick={this.resetHistory.bind(this)}/>
                 </div>
+                <div className="history-container">
+                        <input type="checkbox" class="select-checkbox" id="c1"/>
+                            <label for="c1" class="select-label">Click to open dropdown</label>
+                        <div className="select-wrap">
+                            <ol className="select">
+                                {this.state.history.map((item,i) => {
+                                    // {this.setIndex(i, item)}
+                                    return (
+                                        <li className="history-item" key={i} value={i} onClick={this.goBackHistory.bind(this,i)} >{item.title}
+                                        </li>
+                                    )
+                                })}
+
+                            </ol>
+
+                        </div>
+                </div>
             </div>
 
-            <div className="history-container">
-              Use scroll bar- click to go back to event
-              {this.state.history.map((item,i) => {
 
-                return (
-                  <div className="history-return">
-                    {/* index comes from binding i to the method call                    */}
-                    <div key={i} onClick={this.goBackHistory.bind(this, i)}>{item.title}
-                      {/* binding the i acts as index to keep each point attacted to number, so it is possile to go back */}
-                    </div>
-                  </div>
-                )
-              })}</div>
-
-            <AvatarEditor
-//bind to setEditorRef function above
+            <AvatarEditor className="avatar-editor"
+                //bind to setEditorRef function above
               ref={this.setEditorRef.bind(this)}
-//image coming from Dropzone
+              //image coming from Dropzone
               image={this.props.file}
               uploaded={this.props.uploaded}
               width={this.state.width}

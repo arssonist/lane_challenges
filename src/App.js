@@ -21,12 +21,14 @@ class App extends Component {
   }
   render() {
     return (
-      <main className="interface">
+    <main className="interface-container">
+        <div className="interface">
             <Uploader  onDrop={this.onDrop.bind(this)} >Drop some files here</Uploader>
 
             <Editor file={this.state.files[0] ? this.state.files[0].preview : ''}
-            uploaded={this.state.uploaded}/>
-      </main>
+                uploaded={this.state.uploaded}/>
+            </div>
+    </main>
 
     );
   }
