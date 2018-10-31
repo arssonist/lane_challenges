@@ -6,7 +6,7 @@ class Uploader extends React.Component {
     render() {
         return (
             <div className="uploader">
-            <Dropzone onDrop={this.props.onDrop}>Drop a file here</Dropzone>
+            <Dropzone onDrop={this.props.onDrop}> Click here, or drop a file</Dropzone>
             </div>
         )
     }

@@ -64,21 +64,14 @@ class Editor extends React.Component {
 		// setstate to the new value of history
 	}
     resetHistory(){
-        let zero = 1
-        // console.log(this.state.color)
-            // if(this.state.color){
-            //     console.log('Cannot reset. No changes made yet')
-            //     return
-            // }
-        // set to start
-        console.log(this.state.history)
+        // set to starting values
         let {color, scale, rotate} = {
             color: [255, 255, 255, 0.6],
             scale: 1.2,
             rotate: 0,
         }
         // reset history
-        let history = this.state.history.slice(0, zero);
+        let history = this.state.history.slice(0, 0);
         //change the state to equal those settings
         this.setState({color, scale, rotate, history});
     }
@@ -231,7 +224,7 @@ class Editor extends React.Component {
                 height={this.state.height} border={this.state.border}
                 color={this.state.color}
 				// RGBA
-				scale={this.state.scale}
+				scale={parseInt(this.state.scale)}
                 className="avatar-editor" rotate={this.state.rotate}/> {/* scaled image rendered here */}
 
                 <Modal show={this.state.show} handleClose={this.hideModal}>
