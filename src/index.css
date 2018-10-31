@@ -114,6 +114,8 @@ button {
 }
 
 .modal-main {
+	display: flex;
+	justify-content: center;
 	position: fixed;
 	background: white;
 	width: 80%;
@@ -123,6 +125,16 @@ button {
 	transform: translate(-50%, -50%);
 }
 
+.modal-main button {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+
 .display-block {
 	display: block;
+}
+
+.display-none {
+	display: none;
 }

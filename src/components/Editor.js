@@ -5,6 +5,7 @@ import AvatarEditor from 'react-avatar-editor'
 import History from './History'
 import Uploader from './Uploader'
 import Modal from './Modal'
+import App from '../App'
 
 class Editor extends React.Component {
 	constructor(props) {
@@ -57,26 +58,30 @@ class Editor extends React.Component {
 		var titles = [];
 		// comes form the handle method
 		titles.push(state.title)
-		// if (title === this.state.history){
-		//
-		// }
-		// console.log(state.title)
-		// console.log(current_title)
-		// console.log(titles)
-		// console.log(title)
+
 		history.push(state);
 		this.setState({history});
 		// setstate to the new value of history
 	}
-	resetHistory() {
-		// access history varilble = no acces to photo b/c of scope
-		let history = this.state.history
-		history.length = 1;
-		let file = this.props.file;
-		file.length = 0
-		this.setState({history, file});
-		// setstate to the new value of history, which here is nothing but initial
-	}
+    resetHistory(){
+        let zero = 1
+        // console.log(this.state.color)
+            // if(this.state.color){
+            //     console.log('Cannot reset. No changes made yet')
+            //     return
+            // }
+        // set to start
+        console.log(this.state.history)
+        let {color, scale, rotate} = {
+            color: [255, 255, 255, 0.6],
+            scale: 1.2,
+            rotate: 0,
+        }
+        // reset history
+        let history = this.state.history.slice(0, zero);
+        //change the state to equal those settings
+        this.setState({color, scale, rotate, history});
+    }
 
 	goBackHistory(index) {
 		console.log('index', index)
@@ -86,9 +91,10 @@ class Editor extends React.Component {
 
 		// then set the history itself to slice from the beginning up until this time -this is how if goes backwards
 		let history = this.state.history.slice(0, index);
+        console.log(history)
 		//change the state to equal those settings
 		this.setState({color, scale, rotate, history});
-		console.log('color', this.state.color)
+        console.log(history)
 	}
 
 	handleScale(event) {
@@ -149,11 +155,17 @@ class Editor extends React.Component {
 	}
 	//avatar-editor method- put our changed image into this variable
 	handlePreview(e) {
-		console.log('fired')
+        // make sure there is a file uploadedFiles
+        if(this.props.uploadedFiles.length <= 0){
+            console.log('no image attached')
+            return
+        }
 		const canvasScaled = this.editor.getImageScaledToCanvas();
 		//put out final product inside the scaledImage container, made back in initialValues as blank
 		//GIVEN THIS ANSWER- call .toDataURL() on this image, returning dataurl represnation of image
+        console.log('canvasScaled', e)
 		this.setState({scaledImage: canvasScaled.toDataURL()})
+        this.showModal()
 
 	}
 	//avatar-editor function -  just copied from docs, matches ref in body of component
@@ -205,26 +217,27 @@ class Editor extends React.Component {
 
 					</div>
 				</div>
-				<Modal show={this.state.show} handleClose={this.hideModal}>
-					<p>Modal</p>
-					<p>Data</p>
-				</Modal>
-				<button type="button" onClick={this.showModal}>
+
+				{/* <button type="button" onClick={this.showModal}>
 					open
-				</button>
+				</button> */}
 			</div>
 
 			<AvatarEditor
 				//bind to setEditorRef function above
 				ref={this.setEditorRef.bind(this)}
 				//image coming from Dropzone
-				image={this.props.file} uploaded={this.props.uploaded} width={this.state.width} height={this.state.height} border={this.state.border} color={this.state.color}
+				image={this.props.file} uploaded={this.props.uploaded} width={this.state.width}
+                height={this.state.height} border={this.state.border}
+                color={this.state.color}
 				// RGBA
-				scale={this.state.scale} className="avatar-editor" rotate={this.state.rotate}/> {/* scaled image rendered here */}
+				scale={this.state.scale}
+                className="avatar-editor" rotate={this.state.rotate}/> {/* scaled image rendered here */}
 
-			<div className="scaled-image">
-				<img src={this.state.scaledImage}/>
-			</div>
+                <Modal show={this.state.show} handleClose={this.hideModal}>
+					<img className="scaledImage" src={this.state.scaledImage}/>
+				</Modal>
+
 		</section>)
 	}
 }
