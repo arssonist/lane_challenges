@@ -1,10 +1,11 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import Slider from './Slider'
 import Button from './Button'
 import AvatarEditor from 'react-avatar-editor'
 import History from './History'
 import Uploader from './Uploader'
+import Modal from './Modal'
+import App from '../App'
 
 class Editor extends React.Component {
 	constructor(props) {
@@ -19,7 +20,8 @@ class Editor extends React.Component {
 			],
 			scale: 1.2,
 			rotate: 0,
-			scaledImage: ''
+			scaledImage: '',
+			show: false
 		}
 		this.state = {
 			//import initialValues variable as state, using key/value pairs as state
@@ -56,26 +58,23 @@ class Editor extends React.Component {
 		var titles = [];
 		// comes form the handle method
 		titles.push(state.title)
-		// if (title === this.state.history){
-		//
-		// }
-		// console.log(state.title)
-		// console.log(current_title)
-		// console.log(titles)
-		// console.log(title)
+
 		history.push(state);
 		this.setState({history});
 		// setstate to the new value of history
 	}
-	resetHistory() {
-		// access history varilble = no acces to photo b/c of scope
-		let history = this.state.history
-		history.length = 1;
-		let file = this.props.file;
-		file.length = 0
-		this.setState({history, file});
-		// setstate to the new value of history, which here is nothing but initial
-	}
+    resetHistory(){
+        // set to starting values
+        let {color, scale, rotate} = {
+            color: [255, 255, 255, 0.6],
+            scale: 1.2,
+            rotate: 0,
+        }
+        // reset history
+        let history = this.state.history.slice(0, 0);
+        //change the state to equal those settings
+        this.setState({color, scale, rotate, history});
+    }
 
 	goBackHistory(index) {
 		console.log('index', index)
@@ -85,9 +84,10 @@ class Editor extends React.Component {
 
 		// then set the history itself to slice from the beginning up until this time -this is how if goes backwards
 		let history = this.state.history.slice(0, index);
+        console.log(history)
 		//change the state to equal those settings
 		this.setState({color, scale, rotate, history});
-		console.log('color', this.state.color)
+        console.log(history)
 	}
 
 	handleScale(event) {
@@ -147,26 +147,41 @@ class Editor extends React.Component {
 		this.addHistory('Rotated Right');
 	}
 	//avatar-editor method- put our changed image into this variable
-	// handlePreview(e) {
-	// 	const canvasScaled = this.editor.getImageScaledToCanvas();
-	// 	//put out final product inside the scaledImage container, made back in initialValues as blank
-	// 	//GIVEN THIS ANSWER- call .toDataURL() on this image, returning dataurl represnation of image
-	// 	this.setState({scaledImage: canvasScaled.toDataURL()})
-    //
-	// }
+	handlePreview(e) {
+        // make sure there is a file uploadedFiles
+        if(this.props.uploadedFiles.length <= 0){
+            console.log('no image attached')
+            return
+        }
+		const canvasScaled = this.editor.getImageScaledToCanvas();
+		//put out final product inside the scaledImage container, made back in initialValues as blank
+		//GIVEN THIS ANSWER- call .toDataURL() on this image, returning dataurl represnation of image
+        console.log('canvasScaled', e)
+		this.setState({scaledImage: canvasScaled.toDataURL()})
+        this.showModal()
+
+	}
 	//avatar-editor function -  just copied from docs, matches ref in body of component
-    	setEditorRef(editor) {
-    		if (editor)
-    			this.editor = editor
-    	}
+	setEditorRef(editor) {
+		if (editor)
+			this.editor = editor
+	}
+
+	showModal = () => {
+        console.log('open')
+		this.setState({show: true});
+	}
+
+	hideModal = () => {
+        console.log('close')
+		this.setState({show: false});
+        console.log(this.state.show)
+	}
 
 	render() {
-    		return (<section className="editor">
+		return (<section className="editor">
 			<div className="image-editor-container">
-				{/* <div className="editor-props" file={this.props.file} uploaded={this.props.uploaded}>
 
-                </div> */
-				}
 				<div className="sliders">
 					<Slider text="Zoom" onChange={this.handleScale.bind(this)} value={this.state.scale}/>
 					<Slider className="red-color-slider" text="Border Red" onChange={this.handleRed.bind(this)} value={this.state.color[0]}/>
@@ -177,7 +192,7 @@ class Editor extends React.Component {
 				<div className="buttons">
 					<Button className="rotate-left" text="Rotate Left" onClick={this.handleLeft.bind(this)}/>
 					<Button className="rotate-right" text="Rotate Right" onClick={this.handleRight.bind(this)}/>
-					{/* <Button className="preview" text="Preview" onClick={this.handlePreview.bind(this)}/> */}
+					<Button className="preview" text="Preview" onClick={this.handlePreview.bind(this)}/>
 					<Button className="reset" text="Reset" onClick={this.resetHistory.bind(this)}/>
 				</div>
 				<div className="history-container">
@@ -191,11 +206,14 @@ class Editor extends React.Component {
 									</li>)
 								})
 							}
-
 						</ol>
 
 					</div>
 				</div>
+
+				{/* <button type="button" onClick={this.showModal}>
+					open
+				</button> */}
 			</div>
 
 			<AvatarEditor
@@ -206,12 +224,13 @@ class Editor extends React.Component {
                 height={this.state.height} border={this.state.border}
                 color={this.state.color}
 				// RGBA
-				scale={this.state.scale}
+				scale={parseInt(this.state.scale)}
                 className="avatar-editor" rotate={this.state.rotate}/> {/* scaled image rendered here */}
 
-			{/* <div className="scaled-image">
-				<img src={this.state.scaledImage}/>
-			</div> */}
+                <Modal show={this.state.show} handleClose={this.hideModal}>
+					<img className="scaledImage" src={this.state.scaledImage}/>
+				</Modal>
+
 		</section>)
 	}
 }
